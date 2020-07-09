@@ -1,0 +1,127 @@
+<template>
+  <div>
+    <div class="top">
+      <div v-for="(iq,inde) in news" :key="inde" class="item">
+        <a :href="iq.url" style="text-decoration:none;">
+          <div class="titlebox">
+            <p class="title">{{iq.title}}</p>
+          </div>
+          <div class="ibox">
+            <span class="boximg">
+              <el-image :src="iq.thumbnail_pic_s" fit="fill"></el-image>
+            </span>
+            <span class="boximg">
+              <el-image :src="iq.thumbnail_pic_s02" fit="fill">
+                <div slot="error" class="image-slot"></div>
+              </el-image>
+            </span>
+            <span class="boximg">
+              <el-image :src="iq.thumbnail_pic_s03" fit="fill">
+                <div slot="error" class="image-slot"></div>
+              </el-image>
+            </span>
+          </div>
+          <div class="infobox">
+            <span class="info">来源：{{iq.author_name}}</span>
+            &emsp;&emsp;
+            <span class="info">{{iq.date}}</span>
+          </div>
+        </a>
+        <el-divider></el-divider>
+      </div>
+    </div>
+
+    <div v-for="(i,index) in (this.$store.state.topdata)" :key="index" class="item">
+      <a :href="i.url" style="text-decoration:none;">
+        <div class="titlebox">
+          <p class="title">{{i.title}}</p>
+        </div>
+        <div class="ibox">
+          <span class="boximg">
+            <el-image :src="i.thumbnail_pic_s" fit="fill"></el-image>
+          </span>
+          <span class="boximg">
+            <el-image :src="i.thumbnail_pic_s02" fit="fill">
+              <div slot="error" class="image-slot"></div>
+            </el-image>
+          </span>
+          <span class="boximg">
+            <el-image :src="i.thumbnail_pic_s03" fit="fill">
+              <div slot="error" class="image-slot"></div>
+            </el-image>
+          </span>
+        </div>
+        <div class="infobox">
+          <span class="info">来源：{{i.author_name}}</span>
+          &emsp;&emsp;
+          <span class="info">{{i.date}}</span>
+        </div>
+      </a>
+      <el-divider></el-divider>
+    </div>
+  </div>
+</template>
+
+<script>
+import { getHomeNews } from "network/home";
+export default {
+  data() {
+    return {
+      banner: [],
+      news: []
+    };
+  },
+  created() {
+    // this.gn();
+  },
+  mounted() {
+    this.gn();
+  },
+  methods: {
+    gn() {
+      getHomeNews(1).then(res => {
+        this.news.push(...res.data);
+        //  console.log(this.$store.state.topdata);
+      });
+    }
+  }
+};
+</script>
+
+<style scoped>
+.title {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  color: black;
+  border-radius: 5px;
+}
+.el-image {
+  border-radius: 5px;
+}
+.item {
+  padding: 10px 10px;
+}
+.el-divider {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+.info {
+  flex: 1;
+  width: 50%;
+  text-align: center;
+  color: rgba(136, 143, 141, 0.911);
+  font-size: 50%;
+}
+.ibox {
+  display: flex;
+}
+.boximg {
+  margin: 2px;
+}
+.top {
+  padding: 10px 10px;
+  _height: 800px;
+  min-height: 800px;
+}
+</style>
